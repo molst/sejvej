@@ -11,4 +11,5 @@
                  [ring/ring-jetty-adapter "1.2.2"]
                  [net.cgrand/moustache "1.1.0"]
                  [com.novemberain/pantomime "1.4.0"]]
-  :profiles {:dev {:dependencies [[midje "1.5.1"]]}})
+  :profiles {:dev {:dependencies [[midje "1.5.1"]]}}
+  :main sejvej.site)
