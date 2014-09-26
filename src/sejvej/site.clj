@@ -5,7 +5,8 @@
   (:use [ring.middleware.stacktrace :only [wrap-stacktrace wrap-stacktrace-web]])
   (:use [ring.util.response :only [status redirect resource-response not-found]])
   (:use pantomime.mime)
-  (:import [java.lang System]))
+  (:import [java.lang System])
+  (:gen-class))
 
 (def jetty (atom nil))
 
