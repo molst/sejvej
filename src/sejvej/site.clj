@@ -3,7 +3,8 @@
   (:use ring.middleware.params)
   (:use [ring.adapter.jetty :only [run-jetty]])
   (:use [ring.middleware.stacktrace :only [wrap-stacktrace wrap-stacktrace-web]])
-  (:use [ring.util.response :only [status redirect resource-response not-found]])
+  (:use [ring.middleware.content-type])
+  (:use [ring.util.response :only [response file-response]])
   (:use pantomime.mime)
   (:import [java.lang System])
   (:gen-class))
@@ -17,9 +18,10 @@
        [& file-path]
        (fn [req]
          (let [file-path-str (apply str (interpose "/" file-path))
-               file-res (resource-response file-path-str {:root (System/getProperty "user.dir")})]
-           (assoc file-res :headers {"Content-Type" (mime-type-of file-path-str)}))))
-   
+               mime-type (mime-type-of file-path-str)]
+           (if (= mime-type "text/html")
+               (response (slurp file-path-str))
+               (file-response file-path-str {:root (System/getProperty "user.dir")})))))
    (wrap-stacktrace)))
 
 (defn -main []
